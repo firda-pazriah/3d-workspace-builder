@@ -1,4 +1,5 @@
 import { cm } from "@/data/units";
+import { useWorkspaceStore } from "@/store/useWorkspaceStore";
 
 const BODY = { color: "#f4f4f5", roughness: 0.4 };
 
@@ -8,6 +9,8 @@ export const LAMP_BULB = [0, cm(40), cm(20)];
 // Smart LED Desk Lamp 1S: round base, upright pole and a slim light bar
 // reaching forward (+z).
 export default function DeskLamp() {
+  const isOn = useWorkspaceStore((state) => state.isNight);
+
   return (
     <group>
       {/* BASE */}
@@ -37,7 +40,7 @@ export default function DeskLamp() {
       {/* LED STRIP (underside) */}
       <mesh position={[0, cm(40.25), cm(20)]} rotation={[Math.PI / 2, 0, 0]}>
         <planeGeometry args={[cm(2.4), cm(32)]} />
-        <meshBasicMaterial color="#fff7e0" />
+        <meshBasicMaterial color={isOn ? "#fff7e0" : "#e4e4e7"} />
       </mesh>
     </group>
   );

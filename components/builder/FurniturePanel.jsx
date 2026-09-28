@@ -137,9 +137,10 @@ export default function FurniturePanel() {
     <div
       role="dialog"
       aria-labelledby="furniture-panel-title"
-      className="border-hairline bg-canvas/75 text-ink fixed inset-0 z-50 overflow-y-auto p-6 backdrop-blur-xl sm:inset-y-3 sm:right-auto sm:left-3 sm:w-110 sm:rounded-lg sm:border sm:shadow-lg"
+      className="border-hairline bg-canvas/75 text-ink fixed inset-0 z-50 flex flex-col overflow-hidden backdrop-blur-xl sm:inset-y-3 sm:right-auto sm:left-3 sm:w-110 sm:rounded-lg sm:border sm:shadow-lg"
     >
-      <div className="mb-6 flex items-start justify-between gap-4">
+      {/* HEADER */}
+      <div className="border-hairline flex shrink-0 items-start justify-between gap-4 border-b px-6 pt-6 pb-4">
         <div>
           <p className="text-muted text-sm font-medium tracking-[0.16px]">
             Marketplace
@@ -169,22 +170,24 @@ export default function FurniturePanel() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2">
-        {filteredFurniture.map((item) => (
-          <ProductCard
-            key={item.id}
-            item={item}
-            isSelected={selectedItem?.id === item.id}
-            onPreview={() => setPreviewItem(item)}
-            onClearPreview={clearPreviewItem}
-            onSelect={() => selectItem(activeCategory, item)}
-          />
-        ))}
-      </div>
+      <div className="min-h-0 flex-1 overflow-y-auto p-6">
+        <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2">
+          {filteredFurniture.map((item) => (
+            <ProductCard
+              key={item.id}
+              item={item}
+              isSelected={selectedItem?.id === item.id}
+              onPreview={() => setPreviewItem(item)}
+              onClearPreview={clearPreviewItem}
+              onSelect={() => selectItem(activeCategory, item)}
+            />
+          ))}
+        </div>
 
-      {filteredFurniture.length === 0 && (
-        <p className="text-body text-sm">No furniture available.</p>
-      )}
+        {filteredFurniture.length === 0 && (
+          <p className="text-body text-sm">No furniture available.</p>
+        )}
+      </div>
     </div>
   );
 }

@@ -21,6 +21,7 @@ import { LAMP_BULB } from "./furniture/DeskLamp";
 import Plant from "./furniture/Plant";
 import WallShelves from "./decor/WallShelves";
 import SideboardDecor from "./decor/SideboardDecor";
+import { CeilingLamp } from "./decor/Lamps";
 
 // Slots that can hold a lamp each get a light.
 const LAMP_SLOTS = Object.keys(CATEGORIES).filter((slot) =>
@@ -43,6 +44,7 @@ export default function WorkspaceObject() {
   const selections = useWorkspaceStore((state) => state.selections);
   const previewItem = useWorkspaceStore((state) => state.previewItem);
   const activeCategory = useWorkspaceStore((state) => state.activeCategory);
+  const isNight = useWorkspaceStore((state) => state.isNight);
 
   const previewState = { selections, previewItem, activeCategory };
 
@@ -87,11 +89,13 @@ export default function WorkspaceObject() {
 
       <SideboardDecor />
 
+      <CeilingLamp />
+
       {/* Always mounted so adding a lamp doesn't change the scene's light
           count, which would force every material to recompile. */}
       {LAMP_SLOTS.map((slot) => {
         const item = getVisibleItem(slot);
-        const lampOn = isVisible(slot) && item.category === "lamp";
+        const lampOn = isNight && isVisible(slot) && item.category === "lamp";
         const base = lampOn ? getPosition(slot) : [0, 0, 0];
         const offset = getBulbOffset(getSlotRotation(slot, item));
 
@@ -99,8 +103,9 @@ export default function WorkspaceObject() {
           <pointLight
             key={slot}
             position={base.map((value, i) => value + offset[i])}
-            intensity={lampOn ? 0.8 : 0}
-            distance={2.5}
+            intensity={lampOn ? 4 : 0}
+            distance={3.5}
+            color="#ffd9a0"
           />
         );
       })}

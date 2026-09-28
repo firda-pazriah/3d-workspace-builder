@@ -111,6 +111,8 @@ function Rug() {
 }
 
 function Window() {
+  const isNight = useWorkspaceStore((state) => state.isNight);
+
   return (
     <group
       // Back wall
@@ -129,9 +131,9 @@ function Window() {
         <planeGeometry args={[2.5, 2.9]} />
 
         <meshStandardMaterial
-          color="#AFC8D2"
+          color={isNight ? "#1c2740" : "#AFC8D2"}
           transparent
-          opacity={0.35}
+          opacity={isNight ? 0.85 : 0.35}
           roughness={0.1}
           side={THREE.DoubleSide}
         />
