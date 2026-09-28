@@ -1,6 +1,8 @@
 import Workspace3D from "@/components/builder/Workspace3D";
 import FurniturePanel from "@/components/builder/FurniturePanel";
 import CheckoutSidebar from "@/components/builder/CheckoutSidebar";
+import FullscreenButton from "@/components/builder/FullscreenButton";
+import NightModeButton from "@/components/builder/NightModeButton";
 
 export default function Home() {
   return (
@@ -12,6 +14,10 @@ export default function Home() {
       </div>
 
       <FurniturePanel />
+
+      <NightModeButton />
+
+      <FullscreenButton />
 
       <CheckoutSidebar />
     </main>

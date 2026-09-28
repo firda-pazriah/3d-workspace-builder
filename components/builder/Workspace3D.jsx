@@ -5,6 +5,7 @@ import { OrbitControls } from "@react-three/drei";
 import { MOUSE } from "three";
 
 import { DEFAULT_CAMERA } from "@/data/categories";
+import { useWorkspaceStore } from "@/store/useWorkspaceStore";
 
 import Room from "./Room";
 import WorkspaceObject from "./WorkspaceObject";
@@ -12,8 +13,14 @@ import EmptyFurnitureSlots from "./EmptyFurnitureSlots";
 import CameraController from "./CameraController";
 
 export default function Workspace3D() {
+  const isNight = useWorkspaceStore((state) => state.isNight);
+
   return (
-    <div className="relative h-full w-full">
+    <div
+      className={`relative h-full w-full transition-colors duration-500 ${
+        isNight ? "bg-night" : ""
+      }`}
+    >
       <Canvas
         shadows
         dpr={[1, 2]}
@@ -23,11 +30,16 @@ export default function Workspace3D() {
         }}
       >
         <color attach="background" args={["#dee4e8"]} />
-        <ambientLight intensity={0.7} />
+        <ambientLight
+          intensity={isNight ? 0.12 : 0.7}
+          color={isNight ? "#8ea2d8" : "#ffffff"}
+        />
 
         <directionalLight
           position={[6, 12, 6]}
-          intensity={2}
+          // Sunlight by day, faint moonlight by night.
+          intensity={isNight ? 0.25 : 2}
+          color={isNight ? "#9db4ff" : "#ffffff"}
           castShadow
           shadow-mapSize-width={2048}
           shadow-mapSize-height={2048}

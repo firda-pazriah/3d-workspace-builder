@@ -21,6 +21,7 @@ export const useWorkspaceStore = create((set, get) => ({
     desk: getFurnitureItem("electrical-adjustable-desk"),
     chair: getFurnitureItem("ergonomic-office-chair"),
     monitor: getFurnitureItem("24-full-hd-office-monitor-a24i-2026"),
+    lamp: getFurnitureItem("smart-led-desk-lamp-1-s"),
   },
 
   selectItem: (slot, item) =>
@@ -66,11 +67,7 @@ export const useWorkspaceStore = create((set, get) => ({
   },
 
   closePanel: () => {
-    const { activeCategory } = get();
-
-    if (activeCategory && CATEGORIES[activeCategory].zone !== "desk") {
-      get().resetCamera();
-    }
+    get().resetCamera();
 
     set({ isPanelOpen: false, activeCategory: null, previewItem: null });
   },
@@ -88,6 +85,15 @@ export const useWorkspaceStore = create((set, get) => ({
 
   setRentalWeeks: (weeks) =>
     set({ rentalWeeks: Math.min(52, Math.max(1, weeks)) }),
+
+  // =========================
+  // NIGHT MODE
+  // =========================
+
+  // At night the room goes dark and desk lamps switch on.
+  isNight: false,
+
+  toggleNight: () => set((state) => ({ isNight: !state.isNight })),
 
   // =========================
   // CAMERA
