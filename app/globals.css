@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Design tokens from DESIGN.md. Light-only, like the design system. */
+@theme {
+  --color-primary: #181d26;
+  --color-primary-active: #0d1218;
+  --color-ink: #181d26;
+  --color-body: #333840;
+  --color-muted: #41454d;
+  --color-hairline: #dddddd;
+  --color-border-strong: #9297a0;
+  --color-canvas: #ffffff;
+  --color-surface-soft: #f8fafc;
+  --color-surface-strong: #e0e2e6;
+  --color-signature-cream: #f5e9d4;
+  --color-signature-peach: #fcab79;
+  --color-signature-mint: #a8d8c4;
+  --color-signature-yellow: #f4d35e;
+  --color-signature-mustard: #d9a441;
+  --color-on-primary: #ffffff;
+  --color-link: #1b61c9;
+  --color-info-border: #458fff;
+  --color-success: #006400;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --radius-xs: 2px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Inter stands in for Haas Grotesk (see DESIGN.md "Font Substitutes"). */
+  --font-sans:
+    var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+/* Keyboard focus ring (DESIGN.md "Button focus"). */
+:focus-visible {
+  outline: 2px solid var(--color-info-border);
+  outline-offset: 2px;
+}
+
+/* Background grid behind the 3D scene: 24px minor lines, 96px major lines,
+   fading out toward the edges. Colours are DESIGN.md hairline tones. */
+@utility bg-grid {
+  --grid-minor: color-mix(in srgb, var(--color-hairline) 55%, transparent);
+  --grid-major: color-mix(in srgb, var(--color-border-strong) 10%, transparent);
+
+  background-image:
+    linear-gradient(to right, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(to right, var(--grid-minor) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-minor) 1px, transparent 1px);
+  background-size:
+    96px 96px,
+    96px 96px,
+    55px 55px,
+    55px 55px;
+  background-position: center;
+  mask-image: radial-gradient(
+    ellipse 55% 50% at 50% 45%,
+    #000 35%,
+    transparent 100%
+  );
 }

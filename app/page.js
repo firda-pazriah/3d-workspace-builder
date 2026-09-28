@@ -1,19 +1,19 @@
-"use client";
-
-import { useState } from "react";
-
 import Workspace3D from "@/components/builder/Workspace3D";
+import FurniturePanel from "@/components/builder/FurniturePanel";
+import CheckoutSidebar from "@/components/builder/CheckoutSidebar";
 
 export default function Home() {
-  const [workspace, setWorkspace] = useState({
-    desk: null,
-    chair: null,
-    accessories: [],
-  });
-
   return (
-    <main className="w-screen h-screen">
-      <Workspace3D />
+    <main className="bg-surface-soft relative h-screen w-screen overflow-hidden">
+      <div className="absolute inset-0">
+        <div aria-hidden="true" className="bg-grid absolute inset-0" />
+
+        <Workspace3D />
+      </div>
+
+      <FurniturePanel />
+
+      <CheckoutSidebar />
     </main>
   );
 }
