@@ -48,3 +48,18 @@ Categories in the `"desk"` zone keep the camera where it is. Categories in any o
 2. Create the model in `components/builder/furniture/` and register it in `furniture/index.js` under the same id.
 
 **A new category:** also add an entry to `data/categories.js`. The store, scene, `+` markers and summary all pick it up automatically.
+
+## Approach, tech choices and next steps
+
+**Approach.** I kept the app data-driven: the catalogue (`data/furniture.js`) and the room layout (`data/categories.js`) describe everything, and the scene, marketplace and checkout are generated from them. That makes a new product or spot a data change, not new UI code. The 3D scene and the HTML UI never talk to each other directly; both read and write one Zustand store. Live preview is simply "show the previewed item instead of the selected one" in that store, so it reuses the normal rendering. All models are built from simple shapes at real size in centimetres, so they can be checked against the product spec sheets.
+
+**Tech choices.** Next.js with React gives a fast static page with optimized product images and fonts. React Three Fiber and drei let the 3D scene be written as React components, with ready-made camera controls and HTML overlays. Zustand is a tiny store that both the canvas and the DOM can share without prop drilling. Tailwind CSS 4 holds the design tokens from `DESIGN.md`. There's no backend: the order is copied as text and sent to monis.rent.
+
+**With more time, I would:**
+
+- Add tests. The store selectors and layout helpers are pure functions, so they're easy to unit-test, and a few end-to-end tests would cover the preview and checkout flows.
+- Save the setup in the URL or browser storage, so it survives a reload and can be shared.
+- Replace the hand-built models with real 3D models (glTF), loaded only when needed.
+- Load prices from monis.rent instead of a snapshot, and send the order to them directly instead of copying text.
+- Improve phones: the marketplace starts open and full screen there, so a bottom sheet would work better.
+- Make the 3D scene reachable by keyboard. Today, keyboard users go through the checkout list instead.
